@@ -33,7 +33,7 @@ from protocol import (
     recv_json_line, recv_packet, send_json_line,
     send_packet, parse_json, json_bytes, configure_socket
 )
-from config import RELAY_HOST as SERVER_HOST, PORTS
+from config import load_server, save_server, RELAY_HOST as SERVER_HOST, PORTS
 
 QT_KEY_MAP = {
     Qt.Key_Return: 'enter', Qt.Key_Enter: 'enter', Qt.Key_Backspace: 'backspace', Qt.Key_Delete: 'delete',
@@ -264,6 +264,17 @@ class ViewerWindow(QWidget):
         header.addLayout(title_box)
         root.addLayout(header)
 
+        root.addWidget(QLabel('Endereço do servidor'))
+        server_row = QHBoxLayout()
+        self.server_edit = QLineEdit(load_server('Viewer'))
+        self.server_edit.setPlaceholderText('IP ou domínio do relay')
+        self.server_edit.setStyleSheet('font-size: 13px; font-weight: 400;')
+        self.server_save_btn = QPushButton('Salvar servidor')
+        self.server_save_btn.clicked.connect(self.save_server_address)
+        server_row.addWidget(self.server_edit, 1)
+        server_row.addWidget(self.server_save_btn)
+        root.addLayout(server_row)
+
         card = QFrame()
         card.setObjectName('card')
         card_layout = QHBoxLayout(card)
@@ -304,6 +315,17 @@ class ViewerWindow(QWidget):
         self.status.setObjectName('sub')
         root.addWidget(self.status)
 
+    def save_server_address(self):
+        global SERVER_HOST
+        try:
+            SERVER_HOST = save_server('Viewer', self.server_edit.text())
+            self.server_edit.setText(SERVER_HOST)
+            self.status.setText('Servidor salvo. Será usado na próxima conexão.')
+            return True
+        except (ValueError, OSError) as exc:
+            self.status.setText(str(exc))
+            return False
+
     def set_status(self, text):
         self.status.setText(text)
 
@@ -322,6 +344,8 @@ class ViewerWindow(QWidget):
         )
 
     def connect_viewer(self):
+        if not self.save_server_address():
+            return
         host_id = self.id_edit.text().strip()
         password = self.pass_edit.text().strip()
 

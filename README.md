@@ -42,7 +42,7 @@ host.spec    empacotamento do Host com PyInstaller
 viewer.spec  empacotamento do Viewer com PyInstaller
 ```
 
-Os arquivos de compilação e executáveis do ZIP original foram excluídos da publicação. Os fontes e os arquivos de empacotamento foram mantidos. O endereço antigo da EC2 foi substituído por localhost; configure seu próprio relay.
+Os arquivos de compilação e executáveis do ZIP original foram excluídos da publicação. Os fontes e os arquivos de empacotamento foram mantidos. O endereço padrão é `ec2-15-228-9-137.sa-east-1.compute.amazonaws.com`. Em ambos os aplicativos, preencha **Endereço do servidor** e clique em **Salvar servidor**. A configuração fica salva por usuário no computador, separadamente para Host e Viewer, e vale para a próxima conexão. Use somente IP ou domínio, sem URL, porta ou caminho.
 
 ## Executar localmente
 
@@ -79,11 +79,11 @@ Ative o compartilhamento no Host e informe seu ID e senha no Viewer. Para testar
 
 ## Configurações
 
-Defina as variáveis no terminal antes de iniciar o aplicativo. Os scripts não carregam arquivos `.env` automaticamente.
+O endereço salvo na interface tem prioridade sobre a variável de ambiente. Para testes locais, salve `127.0.0.1` no campo dos dois aplicativos. Defina as demais variáveis no terminal antes de iniciar o aplicativo. Os scripts não carregam arquivos `.env` automaticamente.
 
 | Variável | Padrão | Uso |
 | --- | --- | --- |
-| `CONECT_RELAY_HOST` | `127.0.0.1` | Endereço do relay no Host e no Viewer |
+| `CONECT_RELAY_HOST` | `ec2-15-228-9-137.sa-east-1.compute.amazonaws.com` | Valor inicial quando não há servidor salvo na interface |
 | `CONECT_JPEG_QUALITY` | `72` | Qualidade JPEG do Host, de 0 a 100 |
 | `CONECT_FPS` | `30` | Limite pretendido de captura; desempenho real varia |
 | `CONECT_MONITOR_INDEX` | `1` | Monitor inicial do Host, a partir de 1 |
