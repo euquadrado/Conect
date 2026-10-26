@@ -95,12 +95,12 @@ A porta é definida pela lista `PORTS` em cada `config.py`; mantenha os três co
 Veja [implantação na AWS](docs/AWS.md). Para gerar os executáveis no Windows, a partir da raiz e com as dependências instaladas:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install pyinstaller
+.\.venv\Scripts\python.exe -m pip install -r requirements-build.txt
 .\.venv\Scripts\python.exe -m PyInstaller host.spec
 .\.venv\Scripts\python.exe -m PyInstaller viewer.spec
 ```
 
-As saídas ficam em `dist/host` e `dist/viewer`. Este procedimento de empacotamento ainda precisa ser validado nesta publicação.
+As saídas são `dist/Conect-Host-Corrigido.exe` e `dist/Conect-Viewer-Corrigido.exe`. Os arquivos `.spec` fixam Qt/PySide6 e Shiboken 6.11.0 e incluem um conjunto consistente das DLLs do Visual C++. A compilação limpa o PATH e exclui cópias externas da ICU para usar a biblioteca do Windows exigida pelo Qt. Use os `.spec` da raiz para reproduzir o pacote. O modo de diagnóstico `CONECT_SELF_TEST_REPORT` grava a confirmação de criação da janela e encerra o aplicativo; deve ficar desativado durante o uso normal.
 
 ## Limitações e próximos passos
 

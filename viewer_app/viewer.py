@@ -501,5 +501,19 @@ class ViewerWindow(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     win = ViewerWindow()
+    import os
+    if os.environ.get("CONECT_SELF_TEST_REPORT"):
+        win.setAttribute(Qt.WA_DontShowOnScreen, True)
     win.show()
+    if os.environ.get('CONECT_SELF_TEST_REPORT'):
+        from pathlib import Path
+        import json
+        from PySide6.QtCore import qVersion
+        app.processEvents()
+        Path(os.environ['CONECT_SELF_TEST_REPORT']).write_text(
+            json.dumps({'status': 'ok', 'qt': qVersion(), 'window': win.windowTitle(), 'platform': app.platformName(),
+                        'server_field': win.server_edit.text(), 'visible': win.isVisible()}),
+            encoding='utf-8')
+        win.close()
+        sys.exit(0)
     sys.exit(app.exec())
