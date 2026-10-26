@@ -1,4 +1,4 @@
-# Conect — acesso remoto com relay na AWS
+# Conect — acesso remoto com servidor AWS
 
 Projeto acadêmico em Python para visualizar e controlar um computador Windows a distância, com um servidor intermediário que pode ser hospedado no Amazon EC2.
 
